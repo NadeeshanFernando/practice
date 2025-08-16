@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: practice
+  datasource:
+    url: jdbc:postgresql://localhost:5432/practice
+    username: postgres
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
