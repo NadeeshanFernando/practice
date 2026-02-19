@@ -27,7 +27,6 @@ public class EmployeeService {
     employee.setId(null);
     employee.setName(employeeDTO.getName());
     employee.setDepartment(employeeDTO.getDepartment());
-    employee.setCreatedAt(LocalDateTime.now());
     employeeRepo.save(employee);
 
     for (EmployeeSkillsDTO e : employeeDTO.getSkills()){
@@ -52,7 +51,6 @@ public class EmployeeService {
     Employee oldEmployee = employeeRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Employee not found"));
     oldEmployee.setName(employeeDTO.getName());
     oldEmployee.setDepartment(employeeDTO.getDepartment());
-    oldEmployee.setUpdatedAt(LocalDateTime.now());
     employeeRepo.save(oldEmployee);
     return employeeDTO;
   }

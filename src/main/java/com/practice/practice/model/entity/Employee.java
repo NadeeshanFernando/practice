@@ -27,10 +27,6 @@ public class Employee {
   private UUID id;
   private String name;
   private String department;
-  @JsonFormat(pattern = "MMM dd, yyyy HH:mm", timezone = "Asia/Colombo")
-  private LocalDateTime createdAt;
-  @JsonFormat(pattern = "MMM dd, yyyy HH:mm", timezone = "Asia/Colombo")
-  private LocalDateTime updatedAt;
   @OneToMany(mappedBy = "employee")
   private List<EmployeeSkills> skills;
 }

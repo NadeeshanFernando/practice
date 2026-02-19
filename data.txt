@@ -39,3 +39,4 @@
 
 POST -> http://localhost:8080/adjustments/process
 GET -> http://localhost:8080/adjustments/fetch
+http://localhost:8080/swagger-ui/index.html

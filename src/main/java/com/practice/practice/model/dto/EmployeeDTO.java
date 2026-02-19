@@ -16,18 +16,12 @@ public class EmployeeDTO {
   private UUID employeeId;
   private String name;
   private String department;
-  @JsonFormat(pattern = "MMM dd, yyyy HH:mm", timezone = "Asia/Colombo")
-  private LocalDateTime created_at;
-  @JsonFormat(pattern = "MMM dd, yyyy HH:mm", timezone = "Asia/Colombo")
-  private LocalDateTime updated_at;
   private List<EmployeeSkillsDTO> skills;
 
-  public EmployeeDTO(UUID employeeId, String name, String department, LocalDateTime created_at, LocalDateTime updated_at) {
+  public EmployeeDTO(UUID employeeId, String name, String department) {
     this.employeeId = employeeId;
     this.name = name;
     this.department = department;
-    this.created_at = created_at;
-    this.updated_at = updated_at;
     this.skills = skills;
   }
 }
