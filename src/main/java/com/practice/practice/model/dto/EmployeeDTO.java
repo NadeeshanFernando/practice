@@ -22,6 +22,6 @@ public class EmployeeDTO {
     this.employeeId = employeeId;
     this.name = name;
     this.department = department;
-    this.skills = skills;
+    this.skills = List.of();
   }
 }

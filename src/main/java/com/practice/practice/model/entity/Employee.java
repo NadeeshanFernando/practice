@@ -13,20 +13,36 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 @Entity
 @Table(name = "employee")
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 public class Employee {
+
   @Id
-  @JsonIgnore
   @GeneratedValue(generator = "UUID")
   @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
   private UUID id;
+
   private String name;
   private String department;
-  @OneToMany(mappedBy = "employee")
+
+  @OneToMany(
+          mappedBy = "employee",
+          cascade = CascadeType.ALL,
+          orphanRemoval = true
+  )
   private List<EmployeeSkills> skills;
+
+  // keep both sides in sync (important)
+  public void addSkill(EmployeeSkills skill) {
+    skills.add(skill);
+    skill.setEmployee(this);
+  }
+
+  public void removeSkill(EmployeeSkills skill) {
+    skills.remove(skill);
+    skill.setEmployee(null);
+  }
 }
+

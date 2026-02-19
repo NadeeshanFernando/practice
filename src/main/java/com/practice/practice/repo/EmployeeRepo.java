@@ -11,6 +11,11 @@ import java.util.UUID;
 
 @Repository
 public interface EmployeeRepo extends JpaRepository<Employee, UUID> {
-  @Query("SELECT e FROM Employee e LEFT JOIN e.skills es WHERE es.skillName = :sn")
-  List<Employee> findEmployeesBySkill(@Param("sn") String skillName);
+  @Query("""
+  SELECT DISTINCT e
+  FROM Employee e
+  JOIN FETCH e.skills es
+  WHERE es.skillName = :sn
+""")
+  List<Employee> findEmployeesBySkillFetchSkills(@Param("sn") String skillName);
 }

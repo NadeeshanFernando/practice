@@ -10,22 +10,22 @@ import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 @Entity
 @Table(name = "employee_skills")
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 public class EmployeeSkills {
+
   @Id
-  @JsonIgnore
   @GeneratedValue(generator = "UUID")
   @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
   private UUID id;
+
   private String skillName;
   private String skillLevel;
-  @ManyToOne
-  @JoinColumn(name = "employee_id")
-  @JsonIgnore
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "employee_id", nullable = false)
   private Employee employee;
 }
+
