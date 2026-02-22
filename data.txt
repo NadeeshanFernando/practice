@@ -40,3 +40,56 @@
 POST -> http://localhost:8080/adjustments/process
 GET -> http://localhost:8080/adjustments/fetch
 http://localhost:8080/swagger-ui/index.html
+
+
+Coverd Scenarios
+START
+
+(1) Download before COMPLETED
+→ ❌ ERROR
+
+Cycle 1
+──────────────
+Calculate → COMPLETED
+→ Download → DRAFTv1
+→ Download again → DRAFTv1
+
+Cycle 2 (Recalculate)
+──────────────
+Recalculate → COMPLETED
+→ Download → DRAFTv2
+→ Download again → DRAFTv2
+
+Approve
+→ Download → FINALv1
+→ Download again → FINALv1
+
+Cycle 3 (Recalculate after approval)
+──────────────
+Recalculate → COMPLETED
+→ Download → DRAFTv3
+
+Reject
+→ Download → DRAFTv3
+
+Approve
+→ Download → FINALv2
+
+Cycle 4
+──────────────
+Recalculate → FAILED
+→ Download → ❌ ERROR
+
+Recalculate → COMPLETED
+→ Send for Approval (PENDING_APPROVAL)
+→ Download → DRAFTv4
+
+Approve
+→ Download → FINALv3
+
+END
+
+Core Logic
+New COMPLETED → Increase Draft
+APPROVED → Increase Final
+Otherwise → Reuse Existing
