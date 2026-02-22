@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class WorkflowDemoService {
 
+    public static final String WEEKLY_CALCULATION_STATUS_NOT_FOUND_FOR_REQUEST_ID = "WeeklyCalculationStatus not found for requestId: ";
     private final WeeklyCalculationStatusRepository statusRepo;
 
     public WorkflowDemoService(WeeklyCalculationStatusRepository statusRepo) {
@@ -38,7 +39,7 @@ public class WorkflowDemoService {
     @Transactional
     public WeeklyCalculationStatus completeCalculation(String requestId, boolean success) {
         WeeklyCalculationStatus weeklyCalculationStatus = statusRepo.findByRequestId(requestId)
-                .orElseThrow(() -> new ResourceNotFoundException("WeeklyCalculationStatus not found for requestId: " + requestId));
+                .orElseThrow(() -> new ResourceNotFoundException(WEEKLY_CALCULATION_STATUS_NOT_FOUND_FOR_REQUEST_ID + requestId));
 
         weeklyCalculationStatus.setStatus(success ? CalculationStatusType.COMPLETED : CalculationStatusType.FAILED);
         weeklyCalculationStatus.setEndTime(now());

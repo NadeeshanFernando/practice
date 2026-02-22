@@ -10,12 +10,16 @@ import java.time.Instant;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    public static final String NOT_FOUND = "NOT_FOUND";
+    public static final String INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR";
+    public static final String SOMETHING_WENT_WRONG = "Something went wrong";
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiError> handleNotFound(ResourceNotFoundException ex) {
         ApiError error = new ApiError(
                 Instant.now().toString(),
                 HttpStatus.NOT_FOUND.value(),
-                "NOT_FOUND",
+                NOT_FOUND,
                 ex.getMessage()
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
@@ -26,8 +30,8 @@ public class GlobalExceptionHandler {
         ApiError error = new ApiError(
                 Instant.now().toString(),
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "INTERNAL_SERVER_ERROR",
-                "Something went wrong"
+                INTERNAL_SERVER_ERROR,
+                SOMETHING_WENT_WRONG
         );
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
