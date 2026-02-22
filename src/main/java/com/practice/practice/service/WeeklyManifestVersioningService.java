@@ -34,40 +34,40 @@ public class WeeklyManifestVersioningService {
 
         boolean isApproved = latestStatus.getStatus() == CalculationStatusType.APPROVED;
 
-        WeeklyManifestVersion v = versionRepo.findForUpdate(siteId, fy, fw).orElse(null);
+        WeeklyManifestVersion weeklyManifestVersion = versionRepo.findForUpdate(siteId, fy, fw).orElse(null);
 
-        if (v == null) {
-            v = new WeeklyManifestVersion();
-            v.setSiteId(siteId);
-            v.setFiscalYear(fy);
-            v.setFiscalWeek(fw);
-            v.setDraftVersionNo(1);
-            v.setFinalVersionNo(0);
-            v.setLastCalcCompletedTime(latestCompleted.getEndTime());
+        if (weeklyManifestVersion == null) {
+            weeklyManifestVersion = new WeeklyManifestVersion();
+            weeklyManifestVersion.setSiteId(siteId);
+            weeklyManifestVersion.setFiscalYear(fy);
+            weeklyManifestVersion.setFiscalWeek(fw);
+            weeklyManifestVersion.setDraftVersionNo(1);
+            weeklyManifestVersion.setFinalVersionNo(0);
+            weeklyManifestVersion.setLastCalcCompletedTime(latestCompleted.getEndTime());
         } else {
-            if (latestCompleted.getEndTime() > safe(v.getLastCalcCompletedTime())) {
-                v.setDraftVersionNo(v.getDraftVersionNo() + 1);
-                v.setLastCalcCompletedTime(latestCompleted.getEndTime());
-                v.setDraftFileTimestamp(null);
-                v.setFinalFileTimestamp(null);
+            if (latestCompleted.getEndTime() > safe(weeklyManifestVersion.getLastCalcCompletedTime())) {
+                weeklyManifestVersion.setDraftVersionNo(weeklyManifestVersion.getDraftVersionNo() + 1);
+                weeklyManifestVersion.setLastCalcCompletedTime(latestCompleted.getEndTime());
+                weeklyManifestVersion.setDraftFileTimestamp(null);
+                weeklyManifestVersion.setFinalFileTimestamp(null);
             }
         }
 
         if (!isApproved) {
-            if (v.getDraftFileTimestamp() == null) {
-                v.setDraftFileTimestamp(System.currentTimeMillis());
+            if (weeklyManifestVersion.getDraftFileTimestamp() == null) {
+                weeklyManifestVersion.setDraftFileTimestamp(System.currentTimeMillis());
             }
-            versionRepo.save(v);
-            return buildFileName(siteId, fy, fw, v.getDraftFileTimestamp(), "DRAFTv" + v.getDraftVersionNo());
+            versionRepo.save(weeklyManifestVersion);
+            return buildFileName(siteId, fy, fw, weeklyManifestVersion.getDraftFileTimestamp(), "DRAFTv" + weeklyManifestVersion.getDraftVersionNo());
         }
 
         // approved => final
-        if (v.getFinalFileTimestamp() == null) {
-            v.setFinalVersionNo(v.getFinalVersionNo() + 1);
-            v.setFinalFileTimestamp(System.currentTimeMillis());
+        if (weeklyManifestVersion.getFinalFileTimestamp() == null) {
+            weeklyManifestVersion.setFinalVersionNo(weeklyManifestVersion.getFinalVersionNo() + 1);
+            weeklyManifestVersion.setFinalFileTimestamp(System.currentTimeMillis());
         }
-        versionRepo.save(v);
-        return buildFileName(siteId, fy, fw, v.getFinalFileTimestamp(), "FINALv" + v.getFinalVersionNo());
+        versionRepo.save(weeklyManifestVersion);
+        return buildFileName(siteId, fy, fw, weeklyManifestVersion.getFinalFileTimestamp(), "FINALv" + weeklyManifestVersion.getFinalVersionNo());
     }
 
     private static long safe(Long x) { return x == null ? 0L : x; }

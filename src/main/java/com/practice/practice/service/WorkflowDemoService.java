@@ -19,29 +19,29 @@ public class WorkflowDemoService {
 
     @Transactional
     public String calculate(String siteId, int fy, int fw, String userId) {
-        WeeklyCalculationStatus s = new WeeklyCalculationStatus();
-        s.setRequestId(UUID.randomUUID().toString());
-        s.setSiteId(siteId);
-        s.setFiscalYear(fy);
-        s.setFiscalWeek(fw);
-        s.setSavedBy(userId);
+        WeeklyCalculationStatus weeklyCalculationStatus = new WeeklyCalculationStatus();
+        weeklyCalculationStatus.setRequestId(UUID.randomUUID().toString());
+        weeklyCalculationStatus.setSiteId(siteId);
+        weeklyCalculationStatus.setFiscalYear(fy);
+        weeklyCalculationStatus.setFiscalWeek(fw);
+        weeklyCalculationStatus.setSavedBy(userId);
 
-        s.setStatus(CalculationStatusType.PROCESSING);
-        s.setStartTime(now());
-        s.setEndTime(now());
-        statusRepo.save(s);
+        weeklyCalculationStatus.setStatus(CalculationStatusType.PROCESSING);
+        weeklyCalculationStatus.setStartTime(now());
+        weeklyCalculationStatus.setEndTime(now());
+        statusRepo.save(weeklyCalculationStatus);
 
-        return s.getRequestId();
+        return weeklyCalculationStatus.getRequestId();
     }
 
     @Transactional
     public WeeklyCalculationStatus completeCalculation(String requestId, boolean success) {
-        WeeklyCalculationStatus s = statusRepo.findByRequestId(requestId)
+        WeeklyCalculationStatus weeklyCalculationStatus = statusRepo.findByRequestId(requestId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid requestId"));
 
-        s.setStatus(success ? CalculationStatusType.COMPLETED : CalculationStatusType.FAILED);
-        s.setEndTime(now());
-        return statusRepo.save(s);
+        weeklyCalculationStatus.setStatus(success ? CalculationStatusType.COMPLETED : CalculationStatusType.FAILED);
+        weeklyCalculationStatus.setEndTime(now());
+        return statusRepo.save(weeklyCalculationStatus);
     }
 
     @Transactional
