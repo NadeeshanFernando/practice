@@ -2,6 +2,7 @@ package com.practice.practice.service;
 
 import java.util.UUID;
 
+import com.practice.practice.exception.ResourceNotFoundException;
 import com.practice.practice.model.entity.WeeklyCalculationStatus;
 import com.practice.practice.model.enums.CalculationStatusType;
 import com.practice.practice.repo.WeeklyCalculationStatusRepository;
@@ -37,7 +38,7 @@ public class WorkflowDemoService {
     @Transactional
     public WeeklyCalculationStatus completeCalculation(String requestId, boolean success) {
         WeeklyCalculationStatus weeklyCalculationStatus = statusRepo.findByRequestId(requestId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid requestId"));
+                .orElseThrow(() -> new ResourceNotFoundException("WeeklyCalculationStatus not found for requestId: " + requestId));
 
         weeklyCalculationStatus.setStatus(success ? CalculationStatusType.COMPLETED : CalculationStatusType.FAILED);
         weeklyCalculationStatus.setEndTime(now());

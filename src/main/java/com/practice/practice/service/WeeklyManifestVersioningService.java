@@ -1,5 +1,7 @@
 package com.practice.practice.service;
 
+import com.practice.practice.exception.GlobalExceptionHandler;
+import com.practice.practice.exception.ResourceNotFoundException;
 import com.practice.practice.model.entity.WeeklyCalculationStatus;
 import com.practice.practice.model.entity.WeeklyManifestVersion;
 import com.practice.practice.model.enums.CalculationStatusType;
@@ -26,11 +28,11 @@ public class WeeklyManifestVersioningService {
         WeeklyCalculationStatus latestCompleted =
                 statusRepo.findFirstBySiteIdAndFiscalYearAndFiscalWeekAndStatusOrderByEndTimeDesc(
                                 siteId, fy, fw, CalculationStatusType.COMPLETED)
-                        .orElseThrow(() -> new IllegalStateException("No COMPLETED calculation. Download not allowed."));
+                        .orElseThrow(() -> new ResourceNotFoundException("No COMPLETED calculation. Download not allowed."));
 
         WeeklyCalculationStatus latestStatus =
                 statusRepo.findFirstBySiteIdAndFiscalYearAndFiscalWeekOrderByEndTimeDesc(siteId, fy, fw)
-                        .orElseThrow(() -> new IllegalStateException("No status found."));
+                        .orElseThrow(() -> new ResourceNotFoundException("No status found."));
 
         boolean isApproved = latestStatus.getStatus() == CalculationStatusType.APPROVED;
 
