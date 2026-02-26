@@ -16,7 +16,6 @@ public class AccountController {
 
     @PostMapping("/transfer/tx")
     public Account transferTx(@RequestParam double amount) {
-        Account account = service.transferWithTx(amount);
-        return account;
+        return service.transferWithTx(amount);
     }
 }
