@@ -6,7 +6,6 @@ import com.practice.practice.model.entity.Employee;
 import com.practice.practice.model.entity.EmployeeSkills;
 import com.practice.practice.model.enums.SkillLevel;
 import com.practice.practice.repo.EmployeeRepository;
-import com.practice.practice.repo.EmployeeSkillsRepository;
 import com.practice.practice.service.EmployeeService;
 import com.practice.practice.transformmer.EmployeeTransformer;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,6 @@ import java.util.UUID;
 public class EmployeeServiceImpl implements EmployeeService {
 
   private final EmployeeRepository employeeRepository;
-  private final EmployeeSkillsRepository employeeSkillsRepository;
 
   @Override
   @Transactional

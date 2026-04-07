@@ -58,6 +58,7 @@ public class EmployeeDummyDataServiceImpl implements EmployeeDummyDataService {
             employees.add(employee);
         }
 
+        employeeRepository.deleteAll();
         employeeRepository.saveAll(employees);
         return count + " dummy employees inserted successfully";
     }
