@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface EmployeeSkillsRepo extends JpaRepository<EmployeeSkills, UUID> {
+public interface EmployeeSkillsRepository extends JpaRepository<EmployeeSkills, UUID> {
   @Query("SELECT DISTINCT es.skillName FROM EmployeeSkills es ORDER BY es.skillName ASC")
   List<String> getAllSkillNamesOrderByDistinction();
 }

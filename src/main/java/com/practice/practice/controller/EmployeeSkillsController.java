@@ -1,6 +1,7 @@
 package com.practice.practice.controller;
 
 import com.practice.practice.service.EmployeeSkillsService;
+import com.practice.practice.service.impl.EmployeeSkillsServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

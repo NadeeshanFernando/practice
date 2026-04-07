@@ -10,6 +10,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,7 +33,7 @@ public class Employee {
           cascade = CascadeType.ALL,
           orphanRemoval = true
   )
-  private List<EmployeeSkills> skills;
+  private List<EmployeeSkills> skills = new ArrayList<>();
 
   // keep both sides in sync (important)
   public void addSkill(EmployeeSkills skill) {
